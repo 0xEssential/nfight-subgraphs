@@ -4,9 +4,7 @@
   "scripts": {
     "dev": "mesh dev",
     "build": "mesh build",
-    "lint": "next lint",
-    "postinstall": "patch-package",
-    "heroku-cleanup": "patch-package"
+    "lint": "next lint"
   },
   "dependencies": {
     "@graphql-mesh/cli": "0.45.0",
