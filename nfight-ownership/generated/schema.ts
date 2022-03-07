@@ -17,6 +17,7 @@ export class NFTProject extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
+    this.set("chainId", Value.fromI32(0));
   }
 
   save(): void {
@@ -53,6 +54,15 @@ export class NFTProject extends Entity {
   set contractAddress(value: Bytes) {
     this.set("contractAddress", Value.fromBytes(value));
   }
+
+  get chainId(): i32 {
+    let value = this.get("chainId");
+    return value!.toI32();
+  }
+
+  set chainId(value: i32) {
+    this.set("chainId", Value.fromI32(value));
+  }
 }
 
 export class Fighter extends Entity {
@@ -63,6 +73,7 @@ export class Fighter extends Entity {
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("project", Value.fromString(""));
   }
 
   save(): void {
@@ -118,8 +129,8 @@ export class Fighter extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get syncs(): Array<string> | null {
-    let value = this.get("syncs");
+  get syncStatuses(): Array<string> | null {
+    let value = this.get("syncStatuses");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -127,12 +138,21 @@ export class Fighter extends Entity {
     }
   }
 
-  set syncs(value: Array<string> | null) {
+  set syncStatuses(value: Array<string> | null) {
     if (!value) {
-      this.unset("syncs");
+      this.unset("syncStatuses");
     } else {
-      this.set("syncs", Value.fromStringArray(<Array<string>>value));
+      this.set("syncStatuses", Value.fromStringArray(<Array<string>>value));
     }
+  }
+
+  get project(): string {
+    let value = this.get("project");
+    return value!.toString();
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
   }
 }
 

@@ -11,11 +11,66 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class NFTProject extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("contractAddress", Value.fromBytes(Bytes.empty()));
+    this.set("chainId", Value.fromI32(0));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save NFTProject entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save NFTProject entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("NFTProject", id.toString(), this);
+    }
+  }
+
+  static load(id: string): NFTProject | null {
+    return changetype<NFTProject | null>(store.get("NFTProject", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get contractAddress(): Bytes {
+    let value = this.get("contractAddress");
+    return value!.toBytes();
+  }
+
+  set contractAddress(value: Bytes) {
+    this.set("contractAddress", Value.fromBytes(value));
+  }
+
+  get chainId(): i32 {
+    let value = this.get("chainId");
+    return value!.toI32();
+  }
+
+  set chainId(value: i32) {
+    this.set("chainId", Value.fromI32(value));
+  }
+}
+
 export class Fighter extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
 
+    this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
     this.set("aggression", Value.fromBigInt(BigInt.zero()));
@@ -25,6 +80,7 @@ export class Fighter extends Entity {
     this.set("resilience", Value.fromBigInt(BigInt.zero()));
     this.set("speed", Value.fromBigInt(BigInt.zero()));
     this.set("aggregatePoints", Value.fromBigInt(BigInt.zero()));
+    this.set("project", Value.fromString(""));
   }
 
   save(): void {
@@ -51,6 +107,15 @@ export class Fighter extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
   }
 
   get contractAddress(): Bytes {
@@ -149,6 +214,15 @@ export class Fighter extends Entity {
     } else {
       this.set("syncStatuses", Value.fromStringArray(<Array<string>>value));
     }
+  }
+
+  get project(): string {
+    let value = this.get("project");
+    return value!.toString();
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
   }
 }
 
