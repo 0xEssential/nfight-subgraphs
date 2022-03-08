@@ -2,6 +2,7 @@ type NFTProject @entity {
   id: ID!
   contractAddress: Bytes! # address
   chainId: Int!
+  tokenCount: Int
 }
 
 type Fighter @entity {

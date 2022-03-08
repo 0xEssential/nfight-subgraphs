@@ -63,6 +63,15 @@ export class NFTProject extends Entity {
   set chainId(value: i32) {
     this.set("chainId", Value.fromI32(value));
   }
+
+  get tokenCount(): i32 {
+    let value = this.get("tokenCount");
+    return value!.toI32();
+  }
+
+  set tokenCount(value: i32) {
+    this.set("tokenCount", Value.fromI32(value));
+  }
 }
 
 export class Fighter extends Entity {
@@ -80,7 +89,6 @@ export class Fighter extends Entity {
     this.set("resilience", Value.fromBigInt(BigInt.zero()));
     this.set("speed", Value.fromBigInt(BigInt.zero()));
     this.set("aggregatePoints", Value.fromBigInt(BigInt.zero()));
-    this.set("project", Value.fromString(""));
   }
 
   save(): void {
@@ -216,13 +224,21 @@ export class Fighter extends Entity {
     }
   }
 
-  get project(): string {
+  get project(): string | null {
     let value = this.get("project");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set project(value: string) {
-    this.set("project", Value.fromString(value));
+  set project(value: string | null) {
+    if (!value) {
+      this.unset("project");
+    } else {
+      this.set("project", Value.fromString(<string>value));
+    }
   }
 }
 

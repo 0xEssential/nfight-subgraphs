@@ -18,6 +18,7 @@ export class NFTProject extends Entity {
 
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("chainId", Value.fromI32(0));
+    this.set("tokenCount", Value.fromI32(0));
   }
 
   save(): void {
@@ -62,6 +63,15 @@ export class NFTProject extends Entity {
 
   set chainId(value: i32) {
     this.set("chainId", Value.fromI32(value));
+  }
+
+  get tokenCount(): i32 {
+    let value = this.get("tokenCount");
+    return value!.toI32();
+  }
+
+  set tokenCount(value: i32) {
+    this.set("tokenCount", Value.fromI32(value));
   }
 }
 

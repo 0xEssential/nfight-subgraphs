@@ -1,6 +1,6 @@
 const allSyncs = async (root, args, context, info) => {
 
-  const parent = await context.ownership.Query.L1_syncStatuses({
+  const parent = await context.ownership.Query.syncStatuses({
     root,
     args: { first: 1, orderBy: 'timestamp', orderDirection: 'desc', where: { fighter: root.id }},
     context,

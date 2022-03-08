@@ -3,5 +3,6 @@ query getProjects {
     id
     chainId
     contractAddress
+    tokenCount
   }
 }

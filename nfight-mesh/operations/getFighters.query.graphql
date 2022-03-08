@@ -1,0 +1,22 @@
+query getFighters {
+  fighters {
+    id # L1 subgraph fields
+    owner
+    contractAddress
+    tokenId
+    aggregatePoints # L2 subgraph fields
+    aggression
+    awareness
+    determination
+    resilience
+    power
+    speed
+    project {
+      chainId
+    }
+    syncStatus { # One-to-many entity on both L1 and L2
+      status
+      timestamp
+    }
+  }
+}

@@ -5,6 +5,15 @@ sources:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-gamedata
       batch: true
     transforms:
+      - rename:
+          mode: wrap
+          renames:
+            - from:
+                type: Query
+                field: nftprojects
+              to:
+                type: Query
+                field: projects
       - typeMerging:
           queryFields:
             # With batching
@@ -12,8 +21,8 @@ sources:
               keyField: id
               keyArg: 'where.id_in'
             - queryFieldName: syncStatuses
-              keyField: id
-              keyArg: 'where.id_in'
+              keyField: fighter
+              keyArg: fighter
   - name: ownership
     handler:
       graphql:
@@ -22,20 +31,22 @@ sources:
     transforms:
       - prefix:
           value: L1_
-          includeRootOperations: true
+          includeRootOperations: false
+          includeTypes: false
           ignore:
             - syncStatus
             - syncStatuses
             - Fighter
             - _SubgraphErrorPolicy_
+            - Bytes
       - typeMerging:
           queryFields:
-            - queryFieldName: L1_fighter
+            - queryFieldName: fighter
               keyField: id
               keyArg: id
-            - queryFieldName: L1_syncStatuses
-              keyField: id
-              keyArg: id
+            - queryFieldName: syncStatus
+              keyField: fighter
+              keyArg: fighter
 
 additionalTypeDefs: |
   extend type Fighter {
@@ -46,7 +57,7 @@ additionalResolvers:
   - ./resolvers/syncStatus.js
 
 documents:
-  - ./operations/getFighter.query.graphql
+  - ./operations/**.*.graphql
 
 serve:
   browser: true
