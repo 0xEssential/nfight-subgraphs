@@ -634,6 +634,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -824,6 +837,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "registerToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -944,6 +964,93 @@
       }
     ],
     "name": "setMatchAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "contractAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct NFightChildUpgradeable.MainnetNFT",
+            "name": "nft",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "aggression",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "awareness",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "determination",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "power",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "resilience",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "speed",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct INFight.Fighter",
+            "name": "fighter",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct NFightChildUpgradeable.NFighterToken[]",
+        "name": "fighters",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "address",
+        "name": "draftPool",
+        "type": "address"
+      }
+    ],
+    "name": "setStartingAttributes",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "trustedForwarder",
+        "type": "address"
+      }
+    ],
+    "name": "setTrustedForwarder",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

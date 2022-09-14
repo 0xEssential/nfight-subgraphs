@@ -10,15 +10,18 @@ export function handleTransfer(event: Transfer): void {
   let id = contractAddress.toHexString() + event.params.tokenId.toString();
   let fighter = Fighter.load(id)
   
-  if (fighter != null) {
-    fighter.owner = event.params.to;
-    fighter.save();
-
-    let syncStatus = new SyncStatus(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
-    syncStatus.fighter = id;
-    syncStatus.timestamp = event.block.timestamp;
-    syncStatus.status = "Unsynced";
-    syncStatus.save()
+  if (fighter == null) {
+    fighter = new Fighter(id);
   }
-  
+
+  fighter.contractAddress = contractAddress;
+  fighter.owner = event.params.to;
+  fighter.tokenId = event.params.tokenId;
+  fighter.save();
+
+  let syncStatus = new SyncStatus(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
+  syncStatus.fighter = id;
+  syncStatus.timestamp = event.block.timestamp;
+  syncStatus.status = "Unsynced";
+  syncStatus.save()  
 }

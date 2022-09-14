@@ -10,13 +10,13 @@ type Fighter @entity {
   owner: Bytes!
   contractAddress: Bytes!
   tokenId: BigInt!
-  aggression: BigInt!
-  awareness: BigInt!
-  determination: BigInt!
-  power: BigInt!
-  resilience: BigInt!
-  speed: BigInt!
-  aggregatePoints: BigInt!
+  aggression: BigInt
+  awareness: BigInt
+  determination: BigInt
+  power: BigInt
+  resilience: BigInt
+  speed: BigInt
+  aggregatePoints: BigInt
   syncStatuses: [SyncStatus!] @derivedFrom(field: "fighter")
   project: NFTProject
 }
@@ -32,4 +32,17 @@ type SyncStatus @entity {
   fighter: Fighter!
   timestamp: BigInt!
   status: SyncStatusEnum!
+}
+
+type RaffleRound @entity {
+  id: ID!
+  round: BigInt!
+  entryCount: BigInt!
+}
+
+type RaffleEntry @entity {
+  id: ID!
+  entrant: Bytes!
+  raffleRound: RaffleRound!
+  roundIndex: BigInt!
 }

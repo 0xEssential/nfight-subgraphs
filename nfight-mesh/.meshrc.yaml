@@ -1,19 +1,10 @@
 sources:
-  - name: savestate
+  - name: ownership
     handler:
       graphql:
-        endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-gamedata
+        endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
       batch: true
     transforms:
-      - rename:
-          mode: wrap
-          renames:
-            - from:
-                type: Query
-                field: nftprojects
-              to:
-                type: Query
-                field: projects
       - typeMerging:
           queryFields:
             # With batching
@@ -21,32 +12,44 @@ sources:
               keyField: id
               keyArg: 'where.id_in'
             - queryFieldName: syncStatuses
-              keyField: fighter
-              keyArg: fighter
-  - name: ownership
+              keyField: id
+              keyArg: 'where.id_in'
+
+  - name: savestate
     handler:
       graphql:
-        endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
-      batch: true
+        endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-gamedata
+      batch: false
     transforms:
       - prefix:
-          value: L1_
-          includeRootOperations: false
-          includeTypes: false
+          value: SS_
+          includeRootOperations: true
           ignore:
             - syncStatus
             - syncStatuses
             - Fighter
-            - _SubgraphErrorPolicy_
+            - raffleEntries
+            - RaffleEntry
+            - RaffleRound
             - Bytes
+            - _SubgraphErrorPolicy_
       - typeMerging:
           queryFields:
-            - queryFieldName: fighter
+            - queryFieldName: SS_fighter
               keyField: id
               keyArg: id
-            - queryFieldName: syncStatus
-              keyField: fighter
-              keyArg: fighter
+            - queryFieldName: SS_syncStatus
+              keyField: id
+              keyArg: id
+      - rename:
+          mode: wrap
+          renames:
+            - from:
+                type: Query
+                field: SS_nftprojects
+              to:
+                type: Query
+                field: projects
 
 additionalTypeDefs: |
   extend type Fighter {
@@ -57,9 +60,12 @@ additionalResolvers:
   - ./resolvers/syncStatus.js
 
 documents:
-  - ./operations/**.*.graphql
+  - ./operations/**/*.graphql
 
 serve:
   browser: true
   playground: true
+  cors:
+    origin: '*'
   # customServerHandler: ./server.js
+

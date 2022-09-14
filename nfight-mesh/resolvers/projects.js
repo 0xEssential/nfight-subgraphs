@@ -18,10 +18,6 @@ const projects = async (root, args, context, info) => {
 
   });
 
-  console.warn(child)
-
-  console.warn(parent)
-
   const latest = [...(child.length ? child : []), ...(parent.length ? parent : [])];
 
   return latest;

@@ -29,7 +29,7 @@ export function handleFighterUpdated(event: FighterUpdated): void {
   fighter.resilience = event.params.resilience;
   fighter.speed = event.params.speed;
 
-  fighter.aggregatePoints = fighter.aggression.plus(fighter.awareness).plus(fighter.determination).plus(fighter.power).plus(fighter.resilience).plus(fighter.speed);
+  fighter.aggregatePoints = event.params.aggression.plus(event.params.awareness).plus(event.params.determination).plus(event.params.power).plus(event.params.resilience).plus(event.params.speed);
 
   fighter.contractAddress = event.params.contractAddress;
   fighter.tokenId = event.params.tokenId;

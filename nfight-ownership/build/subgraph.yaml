@@ -6,9 +6,9 @@ dataSources:
     name: NFightParent
     network: goerli
     source:
-      address: "0x03955b4b4A115742Fc5287240aE5130Ac437D9D7"
+      address: "0xf03A60C831c1794D6306956A98689BBe8FD08DcF"
       abi: NFightParent
-      startBlock: 6496092
+      startBlock: 7567872
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

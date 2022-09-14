@@ -82,13 +82,6 @@ export class Fighter extends Entity {
     this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
-    this.set("aggression", Value.fromBigInt(BigInt.zero()));
-    this.set("awareness", Value.fromBigInt(BigInt.zero()));
-    this.set("determination", Value.fromBigInt(BigInt.zero()));
-    this.set("power", Value.fromBigInt(BigInt.zero()));
-    this.set("resilience", Value.fromBigInt(BigInt.zero()));
-    this.set("speed", Value.fromBigInt(BigInt.zero()));
-    this.set("aggregatePoints", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
@@ -144,67 +137,123 @@ export class Fighter extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get aggression(): BigInt {
+  get aggression(): BigInt | null {
     let value = this.get("aggression");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set aggression(value: BigInt) {
-    this.set("aggression", Value.fromBigInt(value));
+  set aggression(value: BigInt | null) {
+    if (!value) {
+      this.unset("aggression");
+    } else {
+      this.set("aggression", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get awareness(): BigInt {
+  get awareness(): BigInt | null {
     let value = this.get("awareness");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set awareness(value: BigInt) {
-    this.set("awareness", Value.fromBigInt(value));
+  set awareness(value: BigInt | null) {
+    if (!value) {
+      this.unset("awareness");
+    } else {
+      this.set("awareness", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get determination(): BigInt {
+  get determination(): BigInt | null {
     let value = this.get("determination");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set determination(value: BigInt) {
-    this.set("determination", Value.fromBigInt(value));
+  set determination(value: BigInt | null) {
+    if (!value) {
+      this.unset("determination");
+    } else {
+      this.set("determination", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get power(): BigInt {
+  get power(): BigInt | null {
     let value = this.get("power");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set power(value: BigInt) {
-    this.set("power", Value.fromBigInt(value));
+  set power(value: BigInt | null) {
+    if (!value) {
+      this.unset("power");
+    } else {
+      this.set("power", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get resilience(): BigInt {
+  get resilience(): BigInt | null {
     let value = this.get("resilience");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set resilience(value: BigInt) {
-    this.set("resilience", Value.fromBigInt(value));
+  set resilience(value: BigInt | null) {
+    if (!value) {
+      this.unset("resilience");
+    } else {
+      this.set("resilience", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get speed(): BigInt {
+  get speed(): BigInt | null {
     let value = this.get("speed");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set speed(value: BigInt) {
-    this.set("speed", Value.fromBigInt(value));
+  set speed(value: BigInt | null) {
+    if (!value) {
+      this.unset("speed");
+    } else {
+      this.set("speed", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get aggregatePoints(): BigInt {
+  get aggregatePoints(): BigInt | null {
     let value = this.get("aggregatePoints");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set aggregatePoints(value: BigInt) {
-    this.set("aggregatePoints", Value.fromBigInt(value));
+  set aggregatePoints(value: BigInt | null) {
+    if (!value) {
+      this.unset("aggregatePoints");
+    } else {
+      this.set("aggregatePoints", Value.fromBigInt(<BigInt>value));
+    }
   }
 
   get syncStatuses(): Array<string> | null {
@@ -303,5 +352,123 @@ export class SyncStatus extends Entity {
 
   set status(value: string) {
     this.set("status", Value.fromString(value));
+  }
+}
+
+export class RaffleRound extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("round", Value.fromBigInt(BigInt.zero()));
+    this.set("entryCount", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save RaffleRound entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save RaffleRound entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("RaffleRound", id.toString(), this);
+    }
+  }
+
+  static load(id: string): RaffleRound | null {
+    return changetype<RaffleRound | null>(store.get("RaffleRound", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get round(): BigInt {
+    let value = this.get("round");
+    return value!.toBigInt();
+  }
+
+  set round(value: BigInt) {
+    this.set("round", Value.fromBigInt(value));
+  }
+
+  get entryCount(): BigInt {
+    let value = this.get("entryCount");
+    return value!.toBigInt();
+  }
+
+  set entryCount(value: BigInt) {
+    this.set("entryCount", Value.fromBigInt(value));
+  }
+}
+
+export class RaffleEntry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("entrant", Value.fromBytes(Bytes.empty()));
+    this.set("raffleRound", Value.fromString(""));
+    this.set("roundIndex", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save RaffleEntry entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save RaffleEntry entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("RaffleEntry", id.toString(), this);
+    }
+  }
+
+  static load(id: string): RaffleEntry | null {
+    return changetype<RaffleEntry | null>(store.get("RaffleEntry", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get entrant(): Bytes {
+    let value = this.get("entrant");
+    return value!.toBytes();
+  }
+
+  set entrant(value: Bytes) {
+    this.set("entrant", Value.fromBytes(value));
+  }
+
+  get raffleRound(): string {
+    let value = this.get("raffleRound");
+    return value!.toString();
+  }
+
+  set raffleRound(value: string) {
+    this.set("raffleRound", Value.fromString(value));
+  }
+
+  get roundIndex(): BigInt {
+    let value = this.get("roundIndex");
+    return value!.toBigInt();
+  }
+
+  set roundIndex(value: BigInt) {
+    this.set("roundIndex", Value.fromBigInt(value));
   }
 }
