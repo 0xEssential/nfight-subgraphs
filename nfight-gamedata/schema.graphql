@@ -17,32 +17,6 @@ type Fighter @entity {
   resilience: BigInt
   speed: BigInt
   aggregatePoints: BigInt
-  syncStatuses: [SyncStatus!] @derivedFrom(field: "fighter")
+  registered: Boolean!
   project: NFTProject
-}
-
-enum SyncStatusEnum {
-  Unsynced
-  Syncing
-  Synced
-}
-
-type SyncStatus @entity {
-  id: ID!
-  fighter: Fighter!
-  timestamp: BigInt!
-  status: SyncStatusEnum!
-}
-
-type RaffleRound @entity {
-  id: ID!
-  round: BigInt!
-  entryCount: BigInt!
-}
-
-type RaffleEntry @entity {
-  id: ID!
-  entrant: Bytes!
-  raffleRound: RaffleRound!
-  roundIndex: BigInt!
 }

@@ -755,6 +755,21 @@ export class NFightUpgradeableChild extends ethereum.SmartContract {
     );
   }
 
+  owner(): Address {
+    let result = super.call("owner", "owner():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_owner(): ethereum.CallResult<Address> {
+    let result = super.tryCall("owner", "owner():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   ownerOf(contractAddress: Address, tokenId: BigInt): Address {
     let result = super.call("ownerOf", "ownerOf(address,uint256):(address)", [
       ethereum.Value.fromAddress(contractAddress),
@@ -1240,6 +1255,32 @@ export class RegisterTokenCall__Outputs {
   }
 }
 
+export class RegisterToken1Call extends ethereum.Call {
+  get inputs(): RegisterToken1Call__Inputs {
+    return new RegisterToken1Call__Inputs(this);
+  }
+
+  get outputs(): RegisterToken1Call__Outputs {
+    return new RegisterToken1Call__Outputs(this);
+  }
+}
+
+export class RegisterToken1Call__Inputs {
+  _call: RegisterToken1Call;
+
+  constructor(call: RegisterToken1Call) {
+    this._call = call;
+  }
+}
+
+export class RegisterToken1Call__Outputs {
+  _call: RegisterToken1Call;
+
+  constructor(call: RegisterToken1Call) {
+    this._call = call;
+  }
+}
+
 export class RenounceRoleCall extends ethereum.Call {
   get inputs(): RenounceRoleCall__Inputs {
     return new RenounceRoleCall__Inputs(this);
@@ -1458,6 +1499,122 @@ export class SetMatchAddressCall__Outputs {
   _call: SetMatchAddressCall;
 
   constructor(call: SetMatchAddressCall) {
+    this._call = call;
+  }
+}
+
+export class SetStartingAttributesCall extends ethereum.Call {
+  get inputs(): SetStartingAttributesCall__Inputs {
+    return new SetStartingAttributesCall__Inputs(this);
+  }
+
+  get outputs(): SetStartingAttributesCall__Outputs {
+    return new SetStartingAttributesCall__Outputs(this);
+  }
+}
+
+export class SetStartingAttributesCall__Inputs {
+  _call: SetStartingAttributesCall;
+
+  constructor(call: SetStartingAttributesCall) {
+    this._call = call;
+  }
+
+  get fighters(): Array<SetStartingAttributesCallFightersStruct> {
+    return this._call.inputValues[0].value.toTupleArray<
+      SetStartingAttributesCallFightersStruct
+    >();
+  }
+
+  get draftPool(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class SetStartingAttributesCall__Outputs {
+  _call: SetStartingAttributesCall;
+
+  constructor(call: SetStartingAttributesCall) {
+    this._call = call;
+  }
+}
+
+export class SetStartingAttributesCallFightersStruct extends ethereum.Tuple {
+  get nft(): SetStartingAttributesCallFightersNftStruct {
+    return changetype<SetStartingAttributesCallFightersNftStruct>(
+      this[0].toTuple()
+    );
+  }
+
+  get fighter(): SetStartingAttributesCallFightersFighterStruct {
+    return changetype<SetStartingAttributesCallFightersFighterStruct>(
+      this[1].toTuple()
+    );
+  }
+}
+
+export class SetStartingAttributesCallFightersNftStruct extends ethereum.Tuple {
+  get contractAddress(): Address {
+    return this[0].toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this[1].toBigInt();
+  }
+}
+
+export class SetStartingAttributesCallFightersFighterStruct extends ethereum.Tuple {
+  get aggression(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get awareness(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get determination(): BigInt {
+    return this[2].toBigInt();
+  }
+
+  get power(): BigInt {
+    return this[3].toBigInt();
+  }
+
+  get resilience(): BigInt {
+    return this[4].toBigInt();
+  }
+
+  get speed(): BigInt {
+    return this[5].toBigInt();
+  }
+}
+
+export class SetTrustedForwarderCall extends ethereum.Call {
+  get inputs(): SetTrustedForwarderCall__Inputs {
+    return new SetTrustedForwarderCall__Inputs(this);
+  }
+
+  get outputs(): SetTrustedForwarderCall__Outputs {
+    return new SetTrustedForwarderCall__Outputs(this);
+  }
+}
+
+export class SetTrustedForwarderCall__Inputs {
+  _call: SetTrustedForwarderCall;
+
+  constructor(call: SetTrustedForwarderCall) {
+    this._call = call;
+  }
+
+  get trustedForwarder(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetTrustedForwarderCall__Outputs {
+  _call: SetTrustedForwarderCall;
+
+  constructor(call: SetTrustedForwarderCall) {
     this._call = call;
   }
 }

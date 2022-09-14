@@ -14,9 +14,5 @@ query getFighters {
     project {
       chainId
     }
-    syncStatus { # One-to-many entity on both L1 and L2
-      status
-      timestamp
-    }
   }
 }

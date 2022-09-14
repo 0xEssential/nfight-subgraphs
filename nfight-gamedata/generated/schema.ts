@@ -82,6 +82,7 @@ export class Fighter extends Entity {
     this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("registered", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -256,21 +257,13 @@ export class Fighter extends Entity {
     }
   }
 
-  get syncStatuses(): Array<string> | null {
-    let value = this.get("syncStatuses");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
+  get registered(): boolean {
+    let value = this.get("registered");
+    return value!.toBoolean();
   }
 
-  set syncStatuses(value: Array<string> | null) {
-    if (!value) {
-      this.unset("syncStatuses");
-    } else {
-      this.set("syncStatuses", Value.fromStringArray(<Array<string>>value));
-    }
+  set registered(value: boolean) {
+    this.set("registered", Value.fromBoolean(value));
   }
 
   get project(): string | null {
@@ -288,187 +281,5 @@ export class Fighter extends Entity {
     } else {
       this.set("project", Value.fromString(<string>value));
     }
-  }
-}
-
-export class SyncStatus extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("fighter", Value.fromString(""));
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("status", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save SyncStatus entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save SyncStatus entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("SyncStatus", id.toString(), this);
-    }
-  }
-
-  static load(id: string): SyncStatus | null {
-    return changetype<SyncStatus | null>(store.get("SyncStatus", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get fighter(): string {
-    let value = this.get("fighter");
-    return value!.toString();
-  }
-
-  set fighter(value: string) {
-    this.set("fighter", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get status(): string {
-    let value = this.get("status");
-    return value!.toString();
-  }
-
-  set status(value: string) {
-    this.set("status", Value.fromString(value));
-  }
-}
-
-export class RaffleRound extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("round", Value.fromBigInt(BigInt.zero()));
-    this.set("entryCount", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RaffleRound entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save RaffleRound entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("RaffleRound", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RaffleRound | null {
-    return changetype<RaffleRound | null>(store.get("RaffleRound", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get round(): BigInt {
-    let value = this.get("round");
-    return value!.toBigInt();
-  }
-
-  set round(value: BigInt) {
-    this.set("round", Value.fromBigInt(value));
-  }
-
-  get entryCount(): BigInt {
-    let value = this.get("entryCount");
-    return value!.toBigInt();
-  }
-
-  set entryCount(value: BigInt) {
-    this.set("entryCount", Value.fromBigInt(value));
-  }
-}
-
-export class RaffleEntry extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("entrant", Value.fromBytes(Bytes.empty()));
-    this.set("raffleRound", Value.fromString(""));
-    this.set("roundIndex", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save RaffleEntry entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save RaffleEntry entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("RaffleEntry", id.toString(), this);
-    }
-  }
-
-  static load(id: string): RaffleEntry | null {
-    return changetype<RaffleEntry | null>(store.get("RaffleEntry", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get entrant(): Bytes {
-    let value = this.get("entrant");
-    return value!.toBytes();
-  }
-
-  set entrant(value: Bytes) {
-    this.set("entrant", Value.fromBytes(value));
-  }
-
-  get raffleRound(): string {
-    let value = this.get("raffleRound");
-    return value!.toString();
-  }
-
-  set raffleRound(value: string) {
-    this.set("raffleRound", Value.fromString(value));
-  }
-
-  get roundIndex(): BigInt {
-    let value = this.get("roundIndex");
-    return value!.toBigInt();
-  }
-
-  set roundIndex(value: BigInt) {
-    this.set("roundIndex", Value.fromBigInt(value));
   }
 }

@@ -1,4 +1,4 @@
-query getFightersForAddress($address: Bytes! = "0xc0f5b93bb77271d9ce898d08013f4958d1478534") {
+query getFightersForAddress($address: Bytes! = "0x0090720fed7fed66ed658118b7b3bb0189d3a495") {
   fighters(where: { owner: $address }) {
     id # L1 subgraph fields
     owner
@@ -11,9 +11,10 @@ query getFightersForAddress($address: Bytes! = "0xc0f5b93bb77271d9ce898d08013f49
     resilience
     power
     speed
-    syncStatus { # One-to-many entity on both L1 and L2
-      status
-      timestamp
+    registered
+    project {
+      id
+      chainId
     }
   }
 }

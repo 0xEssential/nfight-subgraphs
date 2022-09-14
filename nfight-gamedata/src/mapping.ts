@@ -4,7 +4,7 @@ import {
   TokenRegistered,
   ProjectRegistered
 } from "../generated/NFightUpgradeableChild/NFightUpgradeableChild"
-import { Fighter, NFTProject, SyncStatus } from "../generated/schema"
+import { Fighter, NFTProject } from "../generated/schema"
 
 export function handleProjectRegistered(event: ProjectRegistered): void {
   let project = new NFTProject(event.params.contractAddress.toHexString() + event.params.chainId.toHexString())
@@ -20,6 +20,9 @@ export function handleFighterUpdated(event: FighterUpdated): void {
  
   if (fighter == null) {
     fighter = new Fighter(id);
+    // not associated with project tho?
+    
+    // fighter.project = 
   }
   
   fighter.aggression = event.params.aggression;
@@ -33,16 +36,14 @@ export function handleFighterUpdated(event: FighterUpdated): void {
 
   fighter.contractAddress = event.params.contractAddress;
   fighter.tokenId = event.params.tokenId;
-
+  fighter.owner = event.params.ownerAddress;
+  fighter.registered = true;
   fighter.save();
 }
 
 export function handleTokenRegistered(event: TokenRegistered): void {
   let id = event.params.contractAddress.toHexString() + event.params.tokenId.toString();
  
-
-  let projectId = event.params.contractAddress.toHexString() + "0x1";
-  let project = NFTProject.load(projectId);
 
   let fighter = Fighter.load(id);
   let increment = false;
@@ -52,29 +53,17 @@ export function handleTokenRegistered(event: TokenRegistered): void {
     fighter = new Fighter(id);
   }
 
-  if (project != null) {
-    fighter.project = projectId;
-    if (increment == true) project.tokenCount += 1;
-    project.save()
-  }
-
   let projectIdL2 = event.params.contractAddress.toHexString() + "0x89";
   let projectL2 = NFTProject.load(projectIdL2);
-  if (projectL2 != null) {
-    fighter.project = projectIdL2;
-    if (increment == true) projectL2.tokenCount += 1;
+  if (projectL2 != null && increment == true) {
+    projectL2.tokenCount += 1;
     projectL2.save()
   }
+
+  fighter.project = projectIdL2;
+
   fighter.owner = event.params.owner;
   fighter.contractAddress = event.params.contractAddress;
   fighter.tokenId = event.params.tokenId;
   fighter.save();
-
-  let syncStatus = new SyncStatus(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
-  syncStatus.fighter = id;
-  syncStatus.timestamp = event.block.timestamp;
-  syncStatus.status = "Synced";
-  syncStatus.save()
-
-
 }

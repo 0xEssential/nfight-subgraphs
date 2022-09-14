@@ -139,23 +139,6 @@ export class Fighter extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get syncStatuses(): Array<string> | null {
-    let value = this.get("syncStatuses");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set syncStatuses(value: Array<string> | null) {
-    if (!value) {
-      this.unset("syncStatuses");
-    } else {
-      this.set("syncStatuses", Value.fromStringArray(<Array<string>>value));
-    }
-  }
-
   get project(): string {
     let value = this.get("project");
     return value!.toString();
@@ -164,68 +147,13 @@ export class Fighter extends Entity {
   set project(value: string) {
     this.set("project", Value.fromString(value));
   }
-}
 
-export class SyncStatus extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("fighter", Value.fromString(""));
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("status", Value.fromString(""));
+  get registered(): boolean {
+    let value = this.get("registered");
+    return value!.toBoolean();
   }
 
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save SyncStatus entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save SyncStatus entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("SyncStatus", id.toString(), this);
-    }
-  }
-
-  static load(id: string): SyncStatus | null {
-    return changetype<SyncStatus | null>(store.get("SyncStatus", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get fighter(): string {
-    let value = this.get("fighter");
-    return value!.toString();
-  }
-
-  set fighter(value: string) {
-    this.set("fighter", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get status(): string {
-    let value = this.get("status");
-    return value!.toString();
-  }
-
-  set status(value: string) {
-    this.set("status", Value.fromString(value));
+  set registered(value: boolean) {
+    this.set("registered", Value.fromBoolean(value));
   }
 }

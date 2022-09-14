@@ -11,10 +11,6 @@ sources:
             - queryFieldName: fighters
               keyField: id
               keyArg: 'where.id_in'
-            - queryFieldName: syncStatuses
-              keyField: id
-              keyArg: 'where.id_in'
-
   - name: savestate
     handler:
       graphql:
@@ -25,20 +21,12 @@ sources:
           value: SS_
           includeRootOperations: true
           ignore:
-            - syncStatus
-            - syncStatuses
             - Fighter
-            - raffleEntries
-            - RaffleEntry
-            - RaffleRound
             - Bytes
             - _SubgraphErrorPolicy_
       - typeMerging:
           queryFields:
             - queryFieldName: SS_fighter
-              keyField: id
-              keyArg: id
-            - queryFieldName: SS_syncStatus
               keyField: id
               keyArg: id
       - rename:
@@ -50,21 +38,15 @@ sources:
               to:
                 type: Query
                 field: projects
-
-additionalTypeDefs: |
-  extend type Fighter {
-    syncStatus: SyncStatus!
-    syncStatusString: String!
-  }
 additionalResolvers:
-  - ./resolvers/syncStatus.js
-
+  - ./resolvers/fighters.js
 documents:
   - ./operations/**/*.graphql
 
 serve:
   browser: true
   playground: true
+  port: 4001
   cors:
     origin: '*'
   # customServerHandler: ./server.js

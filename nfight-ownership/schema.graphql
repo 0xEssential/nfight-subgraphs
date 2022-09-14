@@ -10,19 +10,6 @@ type Fighter @entity {
   contractAddress: Bytes!
   owner: Bytes!
   tokenId: BigInt!
-  syncStatuses: [SyncStatus!] @derivedFrom(field: "fighter")
   project: NFTProject!
-}
-
-enum SyncStatusEnum {
-  Unsynced
-  Syncing
-  Synced
-}
-
-type SyncStatus @entity {
-  id: ID!
-  fighter: Fighter!
-  timestamp: BigInt!
-  status: SyncStatusEnum!
+  registered: Boolean
 }

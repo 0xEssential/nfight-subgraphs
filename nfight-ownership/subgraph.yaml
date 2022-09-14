@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0xf03A60C831c1794D6306956A98689BBe8FD08DcF"
       abi: NFightParent
-      startBlock: 7567872
+      startBlock: 7592700
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -22,8 +22,6 @@ dataSources:
       eventHandlers:
         - event: ProjectRegistered(indexed address,indexed uint256)
           handler: handleProjectRegistered
-        - event: TokenRegistered(indexed address,indexed uint256,indexed address)
-          handler: handleTokenRegistered
       file: ./src/mapping.ts
 templates:
   - name: Project

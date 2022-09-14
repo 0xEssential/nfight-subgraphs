@@ -1,7 +1,7 @@
 import {
   Transfer
 } from "../../generated/Templates/Project/ERC721Transfer"
-import { Fighter, SyncStatus } from "../../generated/schema"
+import { Fighter } from "../../generated/schema"
 import { dataSource } from '@graphprotocol/graph-ts'
 
 export function handleTransfer(event: Transfer): void {
@@ -17,11 +17,7 @@ export function handleTransfer(event: Transfer): void {
   fighter.contractAddress = contractAddress;
   fighter.owner = event.params.to;
   fighter.tokenId = event.params.tokenId;
+  fighter.registered = false;
+  fighter.project = contractAddress.toHexString() + "0x1"
   fighter.save();
-
-  let syncStatus = new SyncStatus(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
-  syncStatus.fighter = id;
-  syncStatus.timestamp = event.block.timestamp;
-  syncStatus.status = "Unsynced";
-  syncStatus.save()  
 }
