@@ -19,6 +19,8 @@ dataSources:
       abis:
         - name: NFightParent
           file: NFightParent/abis/NFightParent.json
+        - name: ERC721
+          file: NFightParent/abis/ERC721.json
       eventHandlers:
         - event: ProjectRegistered(indexed address,indexed uint256)
           handler: handleProjectRegistered

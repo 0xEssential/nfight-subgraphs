@@ -4,13 +4,13 @@ sources:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
       batch: true
-    transforms:
-      - typeMerging:
-          queryFields:
-            # With batching
-            - queryFieldName: fighters
-              keyField: id
-              keyArg: 'where.id_in'
+    # transforms:
+    #   - typeMerging:
+    #       queryFields:
+    #         # With batching
+    #         - queryFieldName: fighters
+    #           keyField: id
+    #           keyArg: 'where.id_in'
   - name: savestate
     handler:
       graphql:
@@ -24,6 +24,8 @@ sources:
             - Fighter
             - Bytes
             - _SubgraphErrorPolicy_
+            - registered
+            # - fighters
       - typeMerging:
           queryFields:
             - queryFieldName: SS_fighter
@@ -40,13 +42,14 @@ sources:
                 field: projects
 additionalResolvers:
   - ./resolvers/fighters.js
+  - ./resolvers/projects.js
+
 documents:
   - ./operations/**/*.graphql
 
 serve:
   browser: true
-  playground: true
-  port: 4001
+  # playground: true
   cors:
     origin: '*'
   # customServerHandler: ./server.js

@@ -5,17 +5,13 @@ const projects = async (root, args, context, info) => {
       args,
       context,
       info,
-      selectionSet: `{ id chainId contractAddress }`
-
     });
 
-  const child = await context.savestate.Query.nftprojects({
+  const child = await context.savestate.Query.projects({
     root,
     args,
     context,
     info,
-    selectionSet: `{ id chainId contractAddress }`
-
   });
 
   const latest = [...(child.length ? child : []), ...(parent.length ? parent : [])];
