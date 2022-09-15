@@ -49,7 +49,7 @@ documents:
 
 serve:
   browser: true
-  # playground: true
+  playground: true
   cors:
     origin: '*'
   # customServerHandler: ./server.js
