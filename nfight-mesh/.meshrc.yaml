@@ -1,56 +1,40 @@
 sources:
-  - name: ownership
+  - name: OwnershipService
     handler:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
-      batch: true
-    transforms:
-      - typeMerging:
-          queryFields:
-            # With batching
-            - queryFieldName: fighters
-              keyField: id
-              keyArg: 'where.id_in'
-            - queryFieldName: syncStatuses
-              keyField: id
-              keyArg: 'where.id_in'
-
-  - name: savestate
+  - name: GameDataService
     handler:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-gamedata
-      batch: false
     transforms:
-      - prefix:
-          value: SS_
-          includeRootOperations: true
-          ignore:
-            - syncStatus
-            - syncStatuses
-            - Fighter
-            - _SubgraphErrorPolicy_
-      - typeMerging:
-          queryFields:
-            - queryFieldName: SS_fighter
-              keyField: id
-              keyArg: id
-            - queryFieldName: SS_syncStatus
-              keyField: id
-              keyArg: id
+      - rename:
+          renames:
+            - from:
+                type: Query
+                field: nftprojects
+              to:
+                type: Query
+                field: projects
 
 additionalTypeDefs: |
   extend type Fighter {
-    syncStatus: SyncStatus!
-    syncStatusString: String!
+    skills: FighterSkill @resolveTo(
+      sourceName: "GameDataService",
+      sourceTypeName: "Query",
+      sourceFieldName: "fighterSkills",
+      keyField: "id",
+      keysArg: "where.id_in"
+    )
   }
-
-additionalResolvers:
-  - ./resolvers/syncStatus.js
 
 documents:
   - ./operations/**/*.graphql
 
 serve:
   browser: true
-  playground: true
+  # playground: true
+  cors:
+    origin: '*'
   # customServerHandler: ./server.js
+

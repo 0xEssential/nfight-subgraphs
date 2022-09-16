@@ -17,6 +17,8 @@ export class NFTProject extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
+    this.set("chainId", Value.fromI32(0));
+    this.set("tokenCount", Value.fromI32(0));
   }
 
   save(): void {
@@ -53,6 +55,24 @@ export class NFTProject extends Entity {
   set contractAddress(value: Bytes) {
     this.set("contractAddress", Value.fromBytes(value));
   }
+
+  get chainId(): i32 {
+    let value = this.get("chainId");
+    return value!.toI32();
+  }
+
+  set chainId(value: i32) {
+    this.set("chainId", Value.fromI32(value));
+  }
+
+  get tokenCount(): i32 {
+    let value = this.get("tokenCount");
+    return value!.toI32();
+  }
+
+  set tokenCount(value: i32) {
+    this.set("tokenCount", Value.fromI32(value));
+  }
 }
 
 export class Fighter extends Entity {
@@ -63,6 +83,7 @@ export class Fighter extends Entity {
     this.set("contractAddress", Value.fromBytes(Bytes.empty()));
     this.set("owner", Value.fromBytes(Bytes.empty()));
     this.set("tokenId", Value.fromBigInt(BigInt.zero()));
+    this.set("project", Value.fromString(""));
   }
 
   save(): void {
@@ -118,84 +139,21 @@ export class Fighter extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get syncs(): Array<string> | null {
-    let value = this.get("syncs");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set syncs(value: Array<string> | null) {
-    if (!value) {
-      this.unset("syncs");
-    } else {
-      this.set("syncs", Value.fromStringArray(<Array<string>>value));
-    }
-  }
-}
-
-export class SyncStatus extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("fighter", Value.fromString(""));
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("status", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save SyncStatus entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save SyncStatus entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("SyncStatus", id.toString(), this);
-    }
-  }
-
-  static load(id: string): SyncStatus | null {
-    return changetype<SyncStatus | null>(store.get("SyncStatus", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
+  get project(): string {
+    let value = this.get("project");
     return value!.toString();
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
   }
 
-  get fighter(): string {
-    let value = this.get("fighter");
-    return value!.toString();
+  get registered(): boolean {
+    let value = this.get("registered");
+    return value!.toBoolean();
   }
 
-  set fighter(value: string) {
-    this.set("fighter", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get status(): string {
-    let value = this.get("status");
-    return value!.toString();
-  }
-
-  set status(value: string) {
-    this.set("status", Value.fromString(value));
+  set registered(value: boolean) {
+    this.set("registered", Value.fromBoolean(value));
   }
 }

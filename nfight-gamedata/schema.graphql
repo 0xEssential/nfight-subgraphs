@@ -1,26 +1,29 @@
-type Fighter @entity {
+type NFTProject @entity {
   id: ID!
+  contractAddress: Bytes! # address
+  chainId: Int!
+  tokenCount: Int
+}
+
+type FighterWithSkill @entity {
+  id: ID!
+  owner: Bytes!
   contractAddress: Bytes!
   tokenId: BigInt!
-  aggression: BigInt!
-  awareness: BigInt!
-  determination: BigInt!
-  power: BigInt!
-  resilience: BigInt!
-  speed: BigInt!
-  aggregatePoints: BigInt!
-  syncStatuses: [SyncStatus!] @derivedFrom(field: "fighter")
+  registered: Boolean!
+  project: NFTProject
+  skills: FighterSkill
 }
 
-enum SyncStatusEnum {
-  Unsynced
-  Syncing
-  Synced
-}
-
-type SyncStatus @entity {
+type FighterSkill @entity {
   id: ID!
-  fighter: Fighter!
-  timestamp: BigInt!
-  status: SyncStatusEnum!
+  fighter: FighterWithSkill
+  fighter_id: String!
+  aggression: BigInt
+  awareness: BigInt
+  determination: BigInt
+  power: BigInt
+  resilience: BigInt
+  speed: BigInt
+  aggregatePoints: BigInt
 }

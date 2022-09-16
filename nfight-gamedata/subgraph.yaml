@@ -3,12 +3,12 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: NFightChildUpgradeable
+    name: NFightUpgradeableChild
     network: mumbai
     source:
-      address: "0xaA6aeBEde588A789d9fE4E6CB86A61bD662E26c1"
-      abi: NFightChildUpgradeable
-      startBlock: 24030618
+      address: "0x65a0a9C1e03B4d255e7502514A516aD5f0ddcAA5"
+      abi: NFightUpgradeableChild
+      startBlock: 28123725
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -16,11 +16,32 @@ dataSources:
       entities:
         - NFighter
       abis:
-        - name: NFightChildUpgradeable
-          file: ./abis/NFightChildUpgradeable.json
+        - name: NFightUpgradeableChild
+          file: ./abis/NFightUpgradeableChild.json
       eventHandlers:
+        - event: ProjectRegistered(indexed address,indexed uint256)
+          handler: handleProjectRegistered
         - event: FighterUpdated(address,uint256,address,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: handleFighterUpdated
         - event: TokenRegistered(indexed address,indexed uint256,indexed address)
           handler: handleTokenRegistered
       file: ./src/mapping.ts
+templates:
+  - name: Project
+    kind: ethereum/contract
+    network: mumbai
+    source:
+      abi: ERC721Transfer
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/project.ts
+      entities:
+        - Project
+      abis:
+        - name: ERC721Transfer
+          file: ./abis/ERC721Transfer.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
