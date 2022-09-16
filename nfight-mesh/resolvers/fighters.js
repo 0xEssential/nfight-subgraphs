@@ -10,7 +10,7 @@ const child = await context.savestate.Query.SS_fighters({
 
 const {...parentArgs } = args
 const registered = parentArgs?.where?.registered;
-parentArgs.where = parentArgs.where ? { ...parentArgs.where, registered: null} : parentArgs;
+parentArgs.where = parentArgs.where ? { ...parentArgs.where, registered: undefined} : parentArgs;
 
 const parent = await context.ownership.Query.fighters({
     root,
