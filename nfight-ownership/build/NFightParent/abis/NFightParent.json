@@ -419,6 +419,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_fxChildTunnel",
+        "type": "address"
+      }
+    ],
+    "name": "resetFxChildTunnel",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "role",
         "type": "bytes32"

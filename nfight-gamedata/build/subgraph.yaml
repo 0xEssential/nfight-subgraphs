@@ -6,9 +6,9 @@ dataSources:
     name: NFightUpgradeableChild
     network: mumbai
     source:
-      address: "0x9d53b0303A02fFd8ef29Ea5f03054Ef3d806c248"
+      address: "0x65a0a9C1e03B4d255e7502514A516aD5f0ddcAA5"
       abi: NFightUpgradeableChild
-      startBlock: 28105679
+      startBlock: 28123725
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
