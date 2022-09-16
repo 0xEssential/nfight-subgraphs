@@ -4,14 +4,15 @@ query getFightersForAddress($address: Bytes! = "0x0090720fed7fed66ed658118b7b3bb
     owner
     contractAddress
     tokenId
-    aggregatePoints # L2 subgraph fields
-    aggression
-    awareness
-    determination
-    resilience
-    power
-    speed
-    registered
+    skills {
+      aggregatePoints # L2 subgraph fields
+      aggression
+      awareness
+      determination
+      resilience
+      power
+      speed
+    }
     project {
       id
       chainId

@@ -4,13 +4,15 @@ query getFighter($id: ID! = "0x8cc06404a64c3c024c41c03247407a9e1c9e62781") {
     owner
     contractAddress
     tokenId
-    aggregatePoints # L2 subgraph fields
-    aggression
-    awareness
-    determination
-    resilience
-    power
-    speed
+    skills {
+      aggregatePoints # L2 subgraph fields
+      aggression
+      awareness
+      determination
+      resilience
+      power
+      speed
+    }
     project {
       chainId
     }

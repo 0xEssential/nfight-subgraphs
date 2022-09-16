@@ -24,36 +24,35 @@ const parent = await context.ownership.Query.fighters({
 // console.warn("CHILD:", child)
 
 
-const crossChain = child.reduce((fighters, fighter) => {
-  const mainnetIndex = parent.findIndex((pFighter) => pFighter.id === fighter.id);
-  if (mainnetIndex > -1) {
-    const mainnetFighter = parent.splice(mainnetIndex, 1)[0];
+const crossChain = parent.reduce((fighters, fighter) => {
+  const mainnetIndex = child.findIndex((pFighter) => pFighter.id === fighter.id);
+  // if (mainnetIndex > -1) {
+    const childFighter = child.splice(mainnetIndex, 1)[0];
 
     return [
       ...fighters,
       {
-        ...mainnetFighter,
-        registered: false,
         ...fighter,
-        ...(mainnetFighter?.owner && {owner: mainnetFighter.owner}),
-        ...(mainnetFighter?.project && {project: mainnetFighter.project})
+        ...childFighter,
+        ...(fighter?.owner && {owner: fighter.owner}),
+        ...(fighter?.project && {project: fighter.project})
       }
     ]
-  }
+  // }
   console.warn(fighter);
-  if (fighter?.project?.chainId == '137') {
-    return [
-      ...fighters,
-     fighter,
-    ]
-  }
+  // if (fighter?.project?.chainId == '137') {
+  //   return [
+  //     ...fighters,
+  //    fighter,
+  //   ]
+  // }
 
-  return fighters;
+  // return fighters;
 }, [])
 
 if(registered) return crossChain;
 
-return [...crossChain, ...parent];
+return [...crossChain, ...child];
 };
 
 const resolvers = {

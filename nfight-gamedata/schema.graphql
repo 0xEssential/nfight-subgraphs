@@ -5,11 +5,20 @@ type NFTProject @entity {
   tokenCount: Int
 }
 
-type Fighter @entity {
+type FighterWithSkill @entity {
   id: ID!
   owner: Bytes!
   contractAddress: Bytes!
   tokenId: BigInt!
+  registered: Boolean!
+  project: NFTProject
+  skills: FighterSkill
+}
+
+type FighterSkill @entity {
+  id: ID!
+  fighter: FighterWithSkill
+  fighter_id: String!
   aggression: BigInt
   awareness: BigInt
   determination: BigInt
@@ -17,6 +26,4 @@ type Fighter @entity {
   resilience: BigInt
   speed: BigInt
   aggregatePoints: BigInt
-  registered: Boolean!
-  project: NFTProject
 }

@@ -4,13 +4,15 @@ query getFighters {
     owner
     contractAddress
     tokenId
-    aggregatePoints # L2 subgraph fields
-    aggression
-    awareness
-    determination
-    resilience
-    power
-    speed
+    skills {
+      aggregatePoints # L2 subgraph fields
+      aggression
+      awareness
+      determination
+      resilience
+      power
+      speed
+    }
     project {
       chainId
     }

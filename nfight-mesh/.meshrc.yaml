@@ -1,48 +1,61 @@
 sources:
-  - name: ownership
+  - name: OwnershipService
     handler:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
-      batch: true
     # transforms:
-    #   - typeMerging:
-    #       queryFields:
-    #         # With batching
-    #         - queryFieldName: fighters
-    #           keyField: id
-    #           keyArg: 'where.id_in'
-  - name: savestate
+      # - typeMerging:
+      #     queryFields:
+      #       # With batching
+      #       - queryFieldName: fighters
+      #         keyField: id
+      #         keyArg: id
+  - name: GameDataService
     handler:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-gamedata
-      batch: false
     transforms:
-      - prefix:
-          value: SS_
-          includeRootOperations: true
-          ignore:
-            - Fighter
-            - Bytes
-            - _SubgraphErrorPolicy_
-            - registered
-            # - fighters
-      - typeMerging:
-          queryFields:
-            - queryFieldName: SS_fighter
-              keyField: id
-              keyArg: id
       - rename:
-          mode: wrap
           renames:
+            # - from:
+            #     type: FighterWithSkill
+            #   to:
+            #     type: Fighter
+            # - from:
+            #     type: Query
+            #     field: fighterWithSkill
+            #   to:
+            #     type: Query
+            #     field: fighter  
             - from:
                 type: Query
-                field: SS_nftprojects
+                field: nftprojects
               to:
                 type: Query
                 field: projects
-additionalResolvers:
-  - ./resolvers/fighters.js
-  - ./resolvers/projects.js
+      # - typeMerging:
+      #     queryFields:
+      #       - queryFieldName: fighterSkill
+      #         keyField: id
+      #         keyArg: id
+      #       - queryFieldName: fighter
+      #         keyField: id
+      #         keyArg: id
+                
+# additionalResolvers:
+#   - ./resolvers/fighters.js
+#   - ./resolvers/projects.js
+
+additionalTypeDefs: |
+  extend type Fighter {
+    skills: FighterSkill @resolveTo(
+      sourceName: "GameDataService",
+      sourceTypeName: "Query",
+      sourceFieldName: "fighterSkills",
+      keyField: "id",
+      keysArg: "id"
+    )
+  }
 
 documents:
   - ./operations/**/*.graphql

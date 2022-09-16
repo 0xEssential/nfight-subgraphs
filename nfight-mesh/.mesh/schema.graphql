@@ -3,75 +3,66 @@ schema {
   subscription: Subscription
 }
 
+directive @resolveTo(requiredSelectionSet: String, sourceName: String!, sourceTypeName: String!, sourceFieldName: String!, sourceSelectionSet: String, sourceArgs: ResolveToSourceArgs, keyField: String, keysArg: String, pubsubTopic: String, filterBy: String, additionalArgs: ResolveToSourceArgs, result: String, resultType: String) on FIELD_DEFINITION
+
 type Query {
-  SS_nftproject(
+  nftproject(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
-    block: SS_Block_height
+    block: Block_height
     """
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): SS_NFTProject
+  ): NFTProject
+  nftprojects(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: NFTProject_orderBy
+    orderDirection: OrderDirection
+    where: NFTProject_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [NFTProject!]!
+  fighter(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Fighter
+  fighters(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: Fighter_orderBy
+    orderDirection: OrderDirection
+    where: Fighter_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [Fighter!]!
+  """Access to subgraph metadata"""
+  _meta(block: Block_height): _Meta_
   projects(
     skip: Int = 0
     first: Int = 100
-    orderBy: SS_NFTProject_orderBy
-    orderDirection: SS_OrderDirection
-    where: SS_NFTProject_filter
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [SS_NFTProject!]!
-  SS_fighter(
-    id: ID!
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Fighter @merge(keyField: "id", keyArg: "id")
-  SS_fighters(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: SS_Fighter_orderBy
-    orderDirection: SS_OrderDirection
-    where: SS_Fighter_filter
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [Fighter!]!
-  """Access to subgraph metadata"""
-  SS__meta(block: SS_Block_height): SS__Meta_
-  nftproject(
-    id: ID!
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): NFTProject
-  nftprojects(
-    skip: Int = 0
-    first: Int = 100
     orderBy: NFTProject_orderBy
     orderDirection: OrderDirection
     where: NFTProject_filter
@@ -84,7 +75,7 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): [NFTProject!]!
-  fighter(
+  fighterWithSkill(
     id: ID!
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -94,13 +85,13 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Fighter
-  fighters(
+  ): FighterWithSkill
+  fighterWithSkills(
     skip: Int = 0
     first: Int = 100
-    orderBy: Fighter_orderBy
+    orderBy: FighterWithSkill_orderBy
     orderDirection: OrderDirection
-    where: Fighter_filter
+    where: FighterWithSkill_filter
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
@@ -109,66 +100,36 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [Fighter!]! @merge(keyField: "id", keyArg: "where.id_in")
-  """Access to subgraph metadata"""
-  _meta(block: Block_height): _Meta_
+  ): [FighterWithSkill!]!
+  fighterSkill(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FighterSkill
+  fighterSkills(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: FighterSkill_orderBy
+    orderDirection: OrderDirection
+    where: FighterSkill_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [FighterSkill!]!
 }
 
 type Subscription {
-  SS_nftproject(
-    id: ID!
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): SS_NFTProject
-  SS_nftprojects(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: SS_NFTProject_orderBy
-    orderDirection: SS_OrderDirection
-    where: SS_NFTProject_filter
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [SS_NFTProject!]!
-  SS_fighter(
-    id: ID!
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): Fighter
-  SS_fighters(
-    skip: Int = 0
-    first: Int = 100
-    orderBy: SS_Fighter_orderBy
-    orderDirection: SS_OrderDirection
-    where: SS_Fighter_filter
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: SS_Block_height
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): [Fighter!]!
-  """Access to subgraph metadata"""
-  SS__meta(block: SS_Block_height): SS__Meta_
   nftproject(
     id: ID!
     """
@@ -223,257 +184,58 @@ type Subscription {
   ): [Fighter!]!
   """Access to subgraph metadata"""
   _meta(block: Block_height): _Meta_
-}
-
-scalar SS_BigDecimal
-
-scalar SS_BigInt
-
-input SS_BlockChangedFilter {
-  number_gte: Int!
-}
-
-input SS_Block_height {
-  hash: Bytes
-  number: Int
-  number_gte: Int
-}
-
-scalar Bytes
-
-type Fighter {
-  id: ID!
-  owner: Bytes!
-  contractAddress: Bytes!
-  tokenId: BigInt!
-  aggression: SS_BigInt
-  awareness: SS_BigInt
-  determination: SS_BigInt
-  power: SS_BigInt
-  resilience: SS_BigInt
-  speed: SS_BigInt
-  aggregatePoints: SS_BigInt
-  registered: Boolean
-  project: NFTProject!
-}
-
-input SS_Fighter_filter {
-  id: ID
-  id_not: ID
-  id_gt: ID
-  id_lt: ID
-  id_gte: ID
-  id_lte: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  owner: Bytes
-  owner_not: Bytes
-  owner_in: [Bytes!]
-  owner_not_in: [Bytes!]
-  owner_contains: Bytes
-  owner_not_contains: Bytes
-  contractAddress: Bytes
-  contractAddress_not: Bytes
-  contractAddress_in: [Bytes!]
-  contractAddress_not_in: [Bytes!]
-  contractAddress_contains: Bytes
-  contractAddress_not_contains: Bytes
-  tokenId: SS_BigInt
-  tokenId_not: SS_BigInt
-  tokenId_gt: SS_BigInt
-  tokenId_lt: SS_BigInt
-  tokenId_gte: SS_BigInt
-  tokenId_lte: SS_BigInt
-  tokenId_in: [SS_BigInt!]
-  tokenId_not_in: [SS_BigInt!]
-  aggression: SS_BigInt
-  aggression_not: SS_BigInt
-  aggression_gt: SS_BigInt
-  aggression_lt: SS_BigInt
-  aggression_gte: SS_BigInt
-  aggression_lte: SS_BigInt
-  aggression_in: [SS_BigInt!]
-  aggression_not_in: [SS_BigInt!]
-  awareness: SS_BigInt
-  awareness_not: SS_BigInt
-  awareness_gt: SS_BigInt
-  awareness_lt: SS_BigInt
-  awareness_gte: SS_BigInt
-  awareness_lte: SS_BigInt
-  awareness_in: [SS_BigInt!]
-  awareness_not_in: [SS_BigInt!]
-  determination: SS_BigInt
-  determination_not: SS_BigInt
-  determination_gt: SS_BigInt
-  determination_lt: SS_BigInt
-  determination_gte: SS_BigInt
-  determination_lte: SS_BigInt
-  determination_in: [SS_BigInt!]
-  determination_not_in: [SS_BigInt!]
-  power: SS_BigInt
-  power_not: SS_BigInt
-  power_gt: SS_BigInt
-  power_lt: SS_BigInt
-  power_gte: SS_BigInt
-  power_lte: SS_BigInt
-  power_in: [SS_BigInt!]
-  power_not_in: [SS_BigInt!]
-  resilience: SS_BigInt
-  resilience_not: SS_BigInt
-  resilience_gt: SS_BigInt
-  resilience_lt: SS_BigInt
-  resilience_gte: SS_BigInt
-  resilience_lte: SS_BigInt
-  resilience_in: [SS_BigInt!]
-  resilience_not_in: [SS_BigInt!]
-  speed: SS_BigInt
-  speed_not: SS_BigInt
-  speed_gt: SS_BigInt
-  speed_lt: SS_BigInt
-  speed_gte: SS_BigInt
-  speed_lte: SS_BigInt
-  speed_in: [SS_BigInt!]
-  speed_not_in: [SS_BigInt!]
-  aggregatePoints: SS_BigInt
-  aggregatePoints_not: SS_BigInt
-  aggregatePoints_gt: SS_BigInt
-  aggregatePoints_lt: SS_BigInt
-  aggregatePoints_gte: SS_BigInt
-  aggregatePoints_lte: SS_BigInt
-  aggregatePoints_in: [SS_BigInt!]
-  aggregatePoints_not_in: [SS_BigInt!]
-  registered: Boolean
-  registered_not: Boolean
-  registered_in: [Boolean!]
-  registered_not_in: [Boolean!]
-  project: String
-  project_not: String
-  project_gt: String
-  project_lt: String
-  project_gte: String
-  project_lte: String
-  project_in: [String!]
-  project_not_in: [String!]
-  project_contains: String
-  project_contains_nocase: String
-  project_not_contains: String
-  project_not_contains_nocase: String
-  project_starts_with: String
-  project_starts_with_nocase: String
-  project_not_starts_with: String
-  project_not_starts_with_nocase: String
-  project_ends_with: String
-  project_ends_with_nocase: String
-  project_not_ends_with: String
-  project_not_ends_with_nocase: String
-  project_: SS_NFTProject_filter
-  """Filter for the block changed event."""
-  _change_block: SS_BlockChangedFilter
-}
-
-enum SS_Fighter_orderBy {
-  id
-  owner
-  contractAddress
-  tokenId
-  aggression
-  awareness
-  determination
-  power
-  resilience
-  speed
-  aggregatePoints
-  registered
-  project
-}
-
-type SS_NFTProject {
-  id: ID!
-  contractAddress: Bytes!
-  chainId: Int!
-  tokenCount: Int
-}
-
-input SS_NFTProject_filter {
-  id: ID
-  id_not: ID
-  id_gt: ID
-  id_lt: ID
-  id_gte: ID
-  id_lte: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  contractAddress: Bytes
-  contractAddress_not: Bytes
-  contractAddress_in: [Bytes!]
-  contractAddress_not_in: [Bytes!]
-  contractAddress_contains: Bytes
-  contractAddress_not_contains: Bytes
-  chainId: Int
-  chainId_not: Int
-  chainId_gt: Int
-  chainId_lt: Int
-  chainId_gte: Int
-  chainId_lte: Int
-  chainId_in: [Int!]
-  chainId_not_in: [Int!]
-  tokenCount: Int
-  tokenCount_not: Int
-  tokenCount_gt: Int
-  tokenCount_lt: Int
-  tokenCount_gte: Int
-  tokenCount_lte: Int
-  tokenCount_in: [Int!]
-  tokenCount_not_in: [Int!]
-  """Filter for the block changed event."""
-  _change_block: SS_BlockChangedFilter
-}
-
-enum SS_NFTProject_orderBy {
-  id
-  contractAddress
-  chainId
-  tokenCount
-}
-
-"""Defines the order direction, either ascending or descending"""
-enum SS_OrderDirection {
-  asc
-  desc
-}
-
-type SS__Block_ {
-  """The hash of the block"""
-  hash: Bytes
-  """The block number"""
-  number: Int!
-  """Integer representation of the timestamp stored in blocks for the chain"""
-  timestamp: Int
-}
-
-"""The type for the top-level _meta field"""
-type SS__Meta_ {
-  """
-  Information about a specific subgraph block. The hash of the block
-  will be null if the _meta field has a block constraint that asks for
-  a block number. It will be filled if the _meta field has no block constraint
-  and therefore asks for the latest  block
-  
-  """
-  block: SS__Block_!
-  """The deployment ID"""
-  deployment: String!
-  """If `true`, the subgraph encountered indexing errors at some past block"""
-  hasIndexingErrors: Boolean!
-}
-
-enum _SubgraphErrorPolicy_ {
-  """Data will be returned even if the subgraph has indexing errors"""
-  allow
-  """
-  If the subgraph has indexing errors, data will be omitted. The default.
-  """
-  deny
+  fighterWithSkill(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FighterWithSkill
+  fighterWithSkills(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: FighterWithSkill_orderBy
+    orderDirection: OrderDirection
+    where: FighterWithSkill_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [FighterWithSkill!]!
+  fighterSkill(
+    id: ID!
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FighterSkill
+  fighterSkills(
+    skip: Int = 0
+    first: Int = 100
+    orderBy: FighterSkill_orderBy
+    orderDirection: OrderDirection
+    where: FighterSkill_filter
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): [FighterSkill!]!
 }
 
 scalar BigDecimal
@@ -488,6 +250,18 @@ input Block_height {
   hash: Bytes
   number: Int
   number_gte: Int
+}
+
+scalar Bytes
+
+type Fighter {
+  id: ID!
+  contractAddress: Bytes!
+  owner: Bytes!
+  tokenId: BigInt!
+  project: NFTProject!
+  registered: Boolean
+  skills: FighterSkill @resolveTo(sourceName: "GameDataService", sourceTypeName: "Query", sourceFieldName: "fighterSkills", keyField: "id", keysArg: "id")
 }
 
 input Fighter_filter {
@@ -561,7 +335,7 @@ type NFTProject {
   id: ID!
   contractAddress: Bytes!
   chainId: Int!
-  tokenCount: Int!
+  tokenCount: Int
 }
 
 input NFTProject_filter {
@@ -636,3 +410,249 @@ type _Meta_ {
   """If `true`, the subgraph encountered indexing errors at some past block"""
   hasIndexingErrors: Boolean!
 }
+
+enum _SubgraphErrorPolicy_ {
+  """Data will be returned even if the subgraph has indexing errors"""
+  allow
+  """
+  If the subgraph has indexing errors, data will be omitted. The default.
+  """
+  deny
+}
+
+type FighterSkill {
+  id: ID!
+  fighter: FighterWithSkill
+  fighter_id: String!
+  aggression: BigInt
+  awareness: BigInt
+  determination: BigInt
+  power: BigInt
+  resilience: BigInt
+  speed: BigInt
+  aggregatePoints: BigInt
+}
+
+input FighterSkill_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  fighter: String
+  fighter_not: String
+  fighter_gt: String
+  fighter_lt: String
+  fighter_gte: String
+  fighter_lte: String
+  fighter_in: [String!]
+  fighter_not_in: [String!]
+  fighter_contains: String
+  fighter_contains_nocase: String
+  fighter_not_contains: String
+  fighter_not_contains_nocase: String
+  fighter_starts_with: String
+  fighter_starts_with_nocase: String
+  fighter_not_starts_with: String
+  fighter_not_starts_with_nocase: String
+  fighter_ends_with: String
+  fighter_ends_with_nocase: String
+  fighter_not_ends_with: String
+  fighter_not_ends_with_nocase: String
+  fighter_: FighterWithSkill_filter
+  fighter_id: String
+  fighter_id_not: String
+  fighter_id_gt: String
+  fighter_id_lt: String
+  fighter_id_gte: String
+  fighter_id_lte: String
+  fighter_id_in: [String!]
+  fighter_id_not_in: [String!]
+  fighter_id_contains: String
+  fighter_id_contains_nocase: String
+  fighter_id_not_contains: String
+  fighter_id_not_contains_nocase: String
+  fighter_id_starts_with: String
+  fighter_id_starts_with_nocase: String
+  fighter_id_not_starts_with: String
+  fighter_id_not_starts_with_nocase: String
+  fighter_id_ends_with: String
+  fighter_id_ends_with_nocase: String
+  fighter_id_not_ends_with: String
+  fighter_id_not_ends_with_nocase: String
+  aggression: BigInt
+  aggression_not: BigInt
+  aggression_gt: BigInt
+  aggression_lt: BigInt
+  aggression_gte: BigInt
+  aggression_lte: BigInt
+  aggression_in: [BigInt!]
+  aggression_not_in: [BigInt!]
+  awareness: BigInt
+  awareness_not: BigInt
+  awareness_gt: BigInt
+  awareness_lt: BigInt
+  awareness_gte: BigInt
+  awareness_lte: BigInt
+  awareness_in: [BigInt!]
+  awareness_not_in: [BigInt!]
+  determination: BigInt
+  determination_not: BigInt
+  determination_gt: BigInt
+  determination_lt: BigInt
+  determination_gte: BigInt
+  determination_lte: BigInt
+  determination_in: [BigInt!]
+  determination_not_in: [BigInt!]
+  power: BigInt
+  power_not: BigInt
+  power_gt: BigInt
+  power_lt: BigInt
+  power_gte: BigInt
+  power_lte: BigInt
+  power_in: [BigInt!]
+  power_not_in: [BigInt!]
+  resilience: BigInt
+  resilience_not: BigInt
+  resilience_gt: BigInt
+  resilience_lt: BigInt
+  resilience_gte: BigInt
+  resilience_lte: BigInt
+  resilience_in: [BigInt!]
+  resilience_not_in: [BigInt!]
+  speed: BigInt
+  speed_not: BigInt
+  speed_gt: BigInt
+  speed_lt: BigInt
+  speed_gte: BigInt
+  speed_lte: BigInt
+  speed_in: [BigInt!]
+  speed_not_in: [BigInt!]
+  aggregatePoints: BigInt
+  aggregatePoints_not: BigInt
+  aggregatePoints_gt: BigInt
+  aggregatePoints_lt: BigInt
+  aggregatePoints_gte: BigInt
+  aggregatePoints_lte: BigInt
+  aggregatePoints_in: [BigInt!]
+  aggregatePoints_not_in: [BigInt!]
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum FighterSkill_orderBy {
+  id
+  fighter
+  fighter_id
+  aggression
+  awareness
+  determination
+  power
+  resilience
+  speed
+  aggregatePoints
+}
+
+type FighterWithSkill {
+  id: ID!
+  owner: Bytes!
+  contractAddress: Bytes!
+  tokenId: BigInt!
+  registered: Boolean!
+  project: NFTProject
+  skills: FighterSkill
+}
+
+input FighterWithSkill_filter {
+  id: ID
+  id_not: ID
+  id_gt: ID
+  id_lt: ID
+  id_gte: ID
+  id_lte: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  owner: Bytes
+  owner_not: Bytes
+  owner_in: [Bytes!]
+  owner_not_in: [Bytes!]
+  owner_contains: Bytes
+  owner_not_contains: Bytes
+  contractAddress: Bytes
+  contractAddress_not: Bytes
+  contractAddress_in: [Bytes!]
+  contractAddress_not_in: [Bytes!]
+  contractAddress_contains: Bytes
+  contractAddress_not_contains: Bytes
+  tokenId: BigInt
+  tokenId_not: BigInt
+  tokenId_gt: BigInt
+  tokenId_lt: BigInt
+  tokenId_gte: BigInt
+  tokenId_lte: BigInt
+  tokenId_in: [BigInt!]
+  tokenId_not_in: [BigInt!]
+  registered: Boolean
+  registered_not: Boolean
+  registered_in: [Boolean!]
+  registered_not_in: [Boolean!]
+  project: String
+  project_not: String
+  project_gt: String
+  project_lt: String
+  project_gte: String
+  project_lte: String
+  project_in: [String!]
+  project_not_in: [String!]
+  project_contains: String
+  project_contains_nocase: String
+  project_not_contains: String
+  project_not_contains_nocase: String
+  project_starts_with: String
+  project_starts_with_nocase: String
+  project_not_starts_with: String
+  project_not_starts_with_nocase: String
+  project_ends_with: String
+  project_ends_with_nocase: String
+  project_not_ends_with: String
+  project_not_ends_with_nocase: String
+  project_: NFTProject_filter
+  skills: String
+  skills_not: String
+  skills_gt: String
+  skills_lt: String
+  skills_gte: String
+  skills_lte: String
+  skills_in: [String!]
+  skills_not_in: [String!]
+  skills_contains: String
+  skills_contains_nocase: String
+  skills_not_contains: String
+  skills_not_contains_nocase: String
+  skills_starts_with: String
+  skills_starts_with_nocase: String
+  skills_not_starts_with: String
+  skills_not_starts_with_nocase: String
+  skills_ends_with: String
+  skills_ends_with_nocase: String
+  skills_not_ends_with: String
+  skills_not_ends_with_nocase: String
+  skills_: FighterSkill_filter
+  """Filter for the block changed event."""
+  _change_block: BlockChangedFilter
+}
+
+enum FighterWithSkill_orderBy {
+  id
+  owner
+  contractAddress
+  tokenId
+  registered
+  project
+  skills
+}
+
+scalar ResolveToSourceArgs

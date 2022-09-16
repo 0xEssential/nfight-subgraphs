@@ -660,6 +660,36 @@ export class RenounceRoleCall__Outputs {
   }
 }
 
+export class ResetFxChildTunnelCall extends ethereum.Call {
+  get inputs(): ResetFxChildTunnelCall__Inputs {
+    return new ResetFxChildTunnelCall__Inputs(this);
+  }
+
+  get outputs(): ResetFxChildTunnelCall__Outputs {
+    return new ResetFxChildTunnelCall__Outputs(this);
+  }
+}
+
+export class ResetFxChildTunnelCall__Inputs {
+  _call: ResetFxChildTunnelCall;
+
+  constructor(call: ResetFxChildTunnelCall) {
+    this._call = call;
+  }
+
+  get _fxChildTunnel(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class ResetFxChildTunnelCall__Outputs {
+  _call: ResetFxChildTunnelCall;
+
+  constructor(call: ResetFxChildTunnelCall) {
+    this._call = call;
+  }
+}
+
 export class RevokeRoleCall extends ethereum.Call {
   get inputs(): RevokeRoleCall__Inputs {
     return new RevokeRoleCall__Inputs(this);
