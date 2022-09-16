@@ -261,7 +261,7 @@ type Fighter {
   tokenId: BigInt!
   project: NFTProject!
   registered: Boolean
-  skills: FighterSkill @resolveTo(sourceName: "GameDataService", sourceTypeName: "Query", sourceFieldName: "fighterSkills", keyField: "id", keysArg: "id")
+  skills: FighterSkill @resolveTo(sourceName: "GameDataService", sourceTypeName: "Query", sourceFieldName: "fighterSkills", keyField: "id", keysArg: "where.id_in")
 }
 
 input Fighter_filter {

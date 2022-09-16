@@ -3,13 +3,6 @@ sources:
     handler:
       graphql:
         endpoint: https://api.thegraph.com/subgraphs/name/sbauch/nfight-ownership
-    # transforms:
-      # - typeMerging:
-      #     queryFields:
-      #       # With batching
-      #       - queryFieldName: fighters
-      #         keyField: id
-      #         keyArg: id
   - name: GameDataService
     handler:
       graphql:
@@ -17,34 +10,12 @@ sources:
     transforms:
       - rename:
           renames:
-            # - from:
-            #     type: FighterWithSkill
-            #   to:
-            #     type: Fighter
-            # - from:
-            #     type: Query
-            #     field: fighterWithSkill
-            #   to:
-            #     type: Query
-            #     field: fighter  
             - from:
                 type: Query
                 field: nftprojects
               to:
                 type: Query
                 field: projects
-      # - typeMerging:
-      #     queryFields:
-      #       - queryFieldName: fighterSkill
-      #         keyField: id
-      #         keyArg: id
-      #       - queryFieldName: fighter
-      #         keyField: id
-      #         keyArg: id
-                
-# additionalResolvers:
-#   - ./resolvers/fighters.js
-#   - ./resolvers/projects.js
 
 additionalTypeDefs: |
   extend type Fighter {
@@ -53,7 +24,7 @@ additionalTypeDefs: |
       sourceTypeName: "Query",
       sourceFieldName: "fighterSkills",
       keyField: "id",
-      keysArg: "id"
+      keysArg: "where.id_in"
     )
   }
 
